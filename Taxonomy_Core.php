@@ -2,6 +2,7 @@
 /**
  * Plugin class for generating/registering custom Taxonomies.
  * @version 0.1.0
+ * @author  Justin Sternberg
  */
 class Taxonomy_Core {
 
