@@ -13,7 +13,7 @@ A tool to make custom taxonomy registration just a bit simpler. Automatically re
 require_once 'Taxonomy_Core/Taxonomy_Core.php';
 
 /**
- * Will register a 'Q & A' CPT
+ * Will register a 'Genre' CPT
  */
 register_via_taxonomy_core( 'Genre' );
 ```
