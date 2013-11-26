@@ -43,6 +43,12 @@ class Taxonomy_Core {
 	private $object_types;
 
 	/**
+	 * An array of each Taxonomy_Core object registered with this class
+	 * @var array
+	 */
+	private static $taxonomies = array();
+
+	/**
 	 * Constructor. Builds our Taxonomy.
 	 * @since 0.1.0
 	 * @param mixed $taxonomy      Singular Taxonomy name, or array with Singular, Plural, and Registered
@@ -132,13 +138,16 @@ class Taxonomy_Core {
 
 		// Success. Set args to what WP returns
 		$this->taxonomy_args = $wp_taxonomies[$this->taxonomy];
+
+		// Add this taxonomy to our taxonomies array
+		self::$taxonomies[ $this->taxonomy ] = $this;
 	}
 
 	/**
 	 * Provides access to private class properties.
 	 * @since  0.1.0
-	 * @param  boolean $key Specific taxonomy parameter to return
-	 * @return mixed        Specific taxonomy parameter or array of singular, plural and registered name
+	 * @param  string $key Specific taxonomy parameter to return
+	 * @return mixed       Specific taxonomy parameter or array of singular, plural and registered name
 	 */
 	public function taxonomy( $key = 'taxonomy' ) {
 
@@ -148,6 +157,19 @@ class Taxonomy_Core {
 			'taxonomy'     => $this->taxonomy,
 			'object_types' => $this->object_types,
 		);
+	}
+
+	/**
+	 * Provides access to all Taxonomy_Core taxonomy objects registered via this class.
+	 * @since  0.1.0
+	 * @param  string $taxonomy Specific Taxonomy_Core object to return, or 'true' to specify only names.
+	 * @return mixed            Specific Taxonomy_Core object or array of all
+	 */
+	public function taxonomies( $taxonomy = '' ) {
+		if ( $taxonomy === true && ! empty( self::$taxonomies ) ) {
+			return array_keys( self::$taxonomies );
+		}
+		return isset( self::$taxonomies[ $taxonomy ] ) ? self::$taxonomies[ $taxonomy ] : self::$taxonomies;
 	}
 
 	/**
