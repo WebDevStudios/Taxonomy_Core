@@ -107,7 +107,7 @@ class Taxonomy_Core {
 		$defaults = array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
-			'show_ui'           => false,
+			'show_ui'           => true,
 			'show_admin_column' => true,
 			'rewrite'           => array( 'hierarchical' => $hierarchical, 'slug' => $this->taxonomy ),
 		);
@@ -139,7 +139,7 @@ class Taxonomy_Core {
 	 * @param  boolean $key Specific taxonomy parameter to return
 	 * @return mixed        Specific taxonomy parameter or array of singular, plural and registered name
 	 */
-	public function taxomonomy( $key = 'taxonomy' ) {
+	public function taxonomy( $key = 'taxonomy' ) {
 
 		return isset( $this->$key ) ? $this->$key : array(
 			'singular'     => $this->singular,
@@ -161,7 +161,7 @@ class Taxonomy_Core {
 
 if ( !function_exists( 'register_via_taxonomy_core' ) ) {
 	/**
-	 * Helper function to register a Taxonomy via the Taxonomy_Core class. An extended class is preferred.
+	 * Helper function to register a Taxonomy via the Taxonomy_Core class.
 	 * @since  0.1.0
 	 * @param  mixed $taxonomy      Singular Taxonomy name, or array with Singular, Plural, and Registered
 	 * @param  array $arg_overrides Taxonomy registration override arguments
