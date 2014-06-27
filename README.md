@@ -20,10 +20,10 @@ require_once 'Taxonomy_Core/Taxonomy_Core.php';
 $genres = register_via_taxonomy_core( 'Genre' );
 
 /**
- * Will register a 'Color' Taxonomy to pages
+ * Will register a 'Actress' Taxonomy to 'movies' post-type
  * First parameter can be an array with Singular, Plural, and Registered name
  */
-$actresses = register_via_taxonomy_core( array( 'Actress', 'Actresses', 'film-actress' ), array(), array( 'page' ) );
+$actresses = register_via_taxonomy_core( array( 'Actress', 'Actresses', 'film-actress' ), array(), array( 'movies' ) );
 
 /**
  * Use the Taxonomy_Core object:
