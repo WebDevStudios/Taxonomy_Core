@@ -17,10 +17,26 @@ require_once 'Taxonomy_Core/Taxonomy_Core.php';
 /**
  * Will register a 'Genre' Taxonomy to posts
  */
-register_via_taxonomy_core( 'Genre' );
+$genres = register_via_taxonomy_core( 'Genre' );
 
 /**
  * Will register a 'Color' Taxonomy to pages
+ * First parameter can be an array with Singular, Plural, and Registered name
  */
-register_via_taxonomy_core( 'Color', array(), array( 'page' ) );
-```
+$actresses = register_via_taxonomy_core( array( 'Actress', 'Actresses', 'film-actress' ), array(), array( 'page' ) );
+
+/**
+ * Use the Taxonomy_Core object:
+ */
+
+// Gets all the taxonomy arguments
+$actress_args = $actresses->get_args()
+
+// Outputs 'film-actress'
+$actress_slug = $actresses->taxonomy()
+
+// Outputs 'Actresses'
+$actress_plural = $actresses->taxonomy( 'plural' );
+
+// Outputs 'Actress'
+$actress_singular = $actresses->taxonomy( 'singular' );
