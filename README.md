@@ -16,14 +16,21 @@ require_once 'Taxonomy_Core/Taxonomy_Core.php';
 
 /**
  * Will register a 'Genre' Taxonomy to posts
+ * First parameter is an array with Singular, Plural, and Registered name
  */
-$genres = register_via_taxonomy_core( 'Genre' );
+$genres = register_via_taxonomy_core( array(
+	__( 'Genre', 'your-text-domain' ), // Singular
+	__( 'Genres', 'your-text-domain' ), // Plural
+	'genre' // Registered name
+) );
 
-/**
- * Will register a 'Actress' Taxonomy to 'movies' post-type
- * First parameter can be an array with Singular, Plural, and Registered name
- */
-$actresses = register_via_taxonomy_core( array( 'Actress', 'Actresses', 'film-actress' ), array(), array( 'movies' ) );
+$names = array(
+	__( 'Actress', 'your-text-domain' ), // Singular
+	__( 'Actresses', 'your-text-domain' ), // Plural
+	'film-actress' // Registered name
+);
+// Will register an 'Actress' Taxonomy to 'movies' post-type
+$actresses = register_via_taxonomy_core( $names, array(), array( 'movies' ) );
 
 /**
  * Use the Taxonomy_Core object:
@@ -32,7 +39,7 @@ $actresses = register_via_taxonomy_core( array( 'Actress', 'Actresses', 'film-ac
 // Gets all the taxonomy arguments
 $actress_args = $actresses->get_args()
 
-// Outputs 'film-actress'
+// Outputs 'film-actress', the taxonomoy registration name/slug
 $actress_slug = $actresses->taxonomy()
 
 // Outputs 'Actresses'
