@@ -1,8 +1,13 @@
 <?php
+if ( ! class_exists( 'Taxonomy_Core' ) ) :
+
 /**
  * Plugin class for generating/registering custom Taxonomies.
- * @version 0.1.0
+ * @version 0.2.0
  * @author  Justin Sternberg
+ *
+ * Text Domain: taxonomy-core
+ * Domain Path: /languages
  */
 class Taxonomy_Core {
 
@@ -49,6 +54,12 @@ class Taxonomy_Core {
 	private static $taxonomies = array();
 
 	/**
+	 * Whether text-domain has been registered
+	 * @var boolean
+	 */
+	private static $l10n_done = false;
+
+	/**
 	 * Constructor. Builds our Taxonomy.
 	 * @since 0.1.0
 	 * @param mixed $taxonomy      Singular Taxonomy name, or array with Singular, Plural, and Registered
@@ -57,25 +68,26 @@ class Taxonomy_Core {
 	 */
 	public function __construct( $taxonomy, $arg_overrides = array(), $object_types = array( 'post' ) ) {
 
-		if( ! $taxonomy ) // If they passed in false or something odd
-			wp_die( 'Taxonomy name required for the first parameter in Taxonomy_Core.' );
-
-		if ( is_string( $taxonomy ) ) {
-			$this->singular = $taxonomy;
-			$this->plural   = $taxonomy .'s';
-			$this->taxonomy = sanitize_title( $this->plural );
-		} elseif ( is_array( $taxonomy ) && $taxonomy[0] ) {
-			$this->singular = $taxonomy[0];
-			$this->plural   = !isset( $taxonomy[1] ) || !is_string( $taxonomy[1] ) ? $taxonomy[0] .'s' : $taxonomy[1];
-			$this->taxonomy = !isset( $taxonomy[2] ) || !is_string( $taxonomy[2] ) ? sanitize_title( $this->plural ) : $taxonomy[2];
-		} else {
-			// Something went wrong.
-			wp_die( 'There was an error with the taxonomy in Taxonomy_Core.' );
+		if ( ! is_array( $taxonomy ) ) {
+			wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
 		}
 
+		if ( ! isset( $taxonomy[0], $taxonomy[1], $taxonomy[2] ) ) {
+			wp_die( __( 'It is required to pass a single, plural and slug string to CPT_Core', 'cpt-core' ) );
+		}
+
+		if ( ! is_string( $taxonomy[0] ) || ! is_string( $cpt[1] ) || ! is_string( $cpt[2] ) ) {
+			wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
+		}
+
+		$this->singular      = $cpt[0];
+		$this->plural        = !isset( $cpt[1] ) || !is_string( $cpt[1] ) ? $cpt[0] .'s' : $cpt[1];
+		$this->taxonomy      = !isset( $cpt[2] ) || !is_string( $cpt[2] ) ? sanitize_title( $this->plural ) : $cpt[2];
 		$this->arg_overrides = (array) $arg_overrides;
 		$this->object_types  = (array) $object_types;
 
+		// load text domain
+		add_action( 'init', array( $this, 'l10n' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ), 5 );
 	}
 
@@ -91,23 +103,23 @@ class Taxonomy_Core {
 		$labels = array(
 			'name'              => $this->plural,
 			'singular_name'     => $this->singular,
-			'search_items'      => sprintf( __( 'Search %s' ), $this->plural ),
-			'all_items'         => sprintf( __( 'All %s' ), $this->plural ),
-			'parent_item'       => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s' ), $this->singular ) : null,
-			'parent_item_colon' => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s:' ), $this->singular ) : null,
-			'edit_item'         => sprintf( __( 'Edit %s' ), $this->singular ),
-			'edit_item'         => sprintf( __( 'Update %s' ), $this->singular ),
-			'add_new_item'      => sprintf( __( 'Add New %s' ), $this->singular ),
-			'add_new_item'      => sprintf( __( 'New %s Name' ), $this->singular ),
+			'search_items'      => sprintf( __( 'Search %s', 'taxonomy-core' ), $this->plural ),
+			'all_items'         => sprintf( __( 'All %s', 'taxonomy-core' ), $this->plural ),
+			'parent_item'       => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s', 'taxonomy-core' ), $this->singular ) : null,
+			'parent_item_colon' => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s:', 'taxonomy-core' ), $this->singular ) : null,
+			'edit_item'         => sprintf( __( 'Edit %s', 'taxonomy-core' ), $this->singular ),
+			'edit_item'         => sprintf( __( 'Update %s', 'taxonomy-core' ), $this->singular ),
+			'add_new_item'      => sprintf( __( 'Add New %s', 'taxonomy-core' ), $this->singular ),
+			'add_new_item'      => sprintf( __( 'New %s Name', 'taxonomy-core' ), $this->singular ),
 		);
 
 		$hierarchical = true;
 
 		if ( isset( $args['hierarchical'] ) && $args['hierarchical'] == false ) {
-			$labels['popular_items']              = sprintf( __( 'Popular %s' ), $this->plural );
-			$labels['separate_items_with_commas'] = sprintf( __( 'Separate %s with commas' ), $this->plural );
-			$labels['add_or_remove_items']        = sprintf( __( 'Add or remove %s' ), $this->plural );
-			$labels['choose_from_most_used']      = sprintf( __( 'Choose from the most used %s' ), $this->plural );
+			$labels['popular_items']              = sprintf( __( 'Popular %s', 'taxonomy-core' ), $this->plural );
+			$labels['separate_items_with_commas'] = sprintf( __( 'Separate %s with commas', 'taxonomy-core' ), $this->plural );
+			$labels['add_or_remove_items']        = sprintf( __( 'Add or remove %s', 'taxonomy-core' ), $this->plural );
+			$labels['choose_from_most_used']      = sprintf( __( 'Choose from the most used %s', 'taxonomy-core' ), $this->plural );
 			$hierarchical = false;
 		}
 
@@ -180,6 +192,21 @@ class Taxonomy_Core {
 	public function __toString() {
 		return $this->taxonomy();
 	}
+
+	/**
+	 * Load this library's text domain
+	 * @since  0.2.0
+	 */
+	public function l10n() {
+		// Only do this one time
+		if ( self::$l10n_done ) {
+			return;
+		}
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'taxonomy-core' );
+		load_textdomain( 'taxonomy-core', WP_LANG_DIR . '/taxonomy-core/taxonomy-core-' . $locale . '.mo' );
+		load_plugin_textdomain( 'taxonomy-core', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
 }
 
 if ( !function_exists( 'register_via_taxonomy_core' ) ) {
@@ -195,3 +222,5 @@ if ( !function_exists( 'register_via_taxonomy_core' ) ) {
 		return new Taxonomy_Core( $taxonomy, $arg_overrides, $object_types );
 	}
 }
+
+endif; // end class_exists check
