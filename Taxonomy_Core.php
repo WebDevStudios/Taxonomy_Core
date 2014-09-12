@@ -3,7 +3,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 /**
  * Plugin class for generating/registering custom Taxonomies.
- * @version 0.2.0
+ * @version 0.2.1
  * @author  Justin Sternberg
  *
  * Text Domain: taxonomy-core
@@ -76,13 +76,13 @@ class Taxonomy_Core {
 			wp_die( __( 'It is required to pass a single, plural and slug string to CPT_Core', 'cpt-core' ) );
 		}
 
-		if ( ! is_string( $taxonomy[0] ) || ! is_string( $cpt[1] ) || ! is_string( $cpt[2] ) ) {
+		if ( ! is_string( $taxonomy[0] ) || ! is_string( $taxonomy[1] ) || ! is_string( $taxonomy[2] ) ) {
 			wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
 		}
 
-		$this->singular      = $cpt[0];
-		$this->plural        = !isset( $cpt[1] ) || !is_string( $cpt[1] ) ? $cpt[0] .'s' : $cpt[1];
-		$this->taxonomy      = !isset( $cpt[2] ) || !is_string( $cpt[2] ) ? sanitize_title( $this->plural ) : $cpt[2];
+		$this->singular      = $taxonomy[0];
+		$this->plural        = !isset( $taxonomy[1] ) || !is_string( $taxonomy[1] ) ? $taxonomy[0] .'s' : $taxonomy[1];
+		$this->taxonomy      = !isset( $taxonomy[2] ) || !is_string( $taxonomy[2] ) ? sanitize_title( $this->plural ) : $taxonomy[2];
 		$this->arg_overrides = (array) $arg_overrides;
 		$this->object_types  = (array) $object_types;
 
