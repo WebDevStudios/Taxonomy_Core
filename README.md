@@ -37,10 +37,10 @@ $actresses = register_via_taxonomy_core( $names, array(), array( 'movies' ) );
  */
 
 // Gets all the taxonomy arguments
-$actress_args = $actresses->get_args()
+$actress_args = $actresses->get_args();
 
 // Outputs 'film-actress', the taxonomoy registration name/slug
-$actress_slug = $actresses->taxonomy()
+$actress_slug = $actresses->taxonomy();
 
 // Outputs 'Actresses'
 $actress_plural = $actresses->taxonomy( 'plural' );
