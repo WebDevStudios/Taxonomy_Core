@@ -73,7 +73,7 @@ class Taxonomy_Core {
 		}
 
 		if ( ! isset( $taxonomy[0], $taxonomy[1], $taxonomy[2] ) ) {
-			wp_die( __( 'It is required to pass a single, plural and slug string to CPT_Core', 'cpt-core' ) );
+			wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'cpt-core' ) );
 		}
 
 		if ( ! is_string( $taxonomy[0] ) || ! is_string( $taxonomy[1] ) || ! is_string( $taxonomy[2] ) ) {
