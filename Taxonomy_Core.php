@@ -87,7 +87,7 @@ class Taxonomy_Core {
 		$this->object_types  = (array) $object_types;
 
 		// load text domain
-		add_action( 'init', array( $this, 'l10n' ) );
+		add_action( 'plugins_loaded', array( $this, 'l10n' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ), 5 );
 	}
 
@@ -202,9 +202,10 @@ class Taxonomy_Core {
 		if ( self::$l10n_done ) {
 			return;
 		}
+
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'taxonomy-core' );
-		load_textdomain( 'taxonomy-core', WP_LANG_DIR . '/taxonomy-core/taxonomy-core-' . $locale . '.mo' );
-		load_plugin_textdomain( 'taxonomy-core', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		$mofile = dirname( __FILE__ ) . '/languages/taxonomy-core-'. $locale .'.mo';
+		load_textdomain( 'taxonomy-core', $mofile );
 	}
 
 }
