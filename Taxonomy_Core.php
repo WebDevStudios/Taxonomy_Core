@@ -1,4 +1,16 @@
 <?php
+/*
+Plugin Name: WDS Taxonomy Core
+Plugin URI: http://webdevstudios.com
+Description: Taxonomy registration starter class
+Version: 0.2.1
+Author: WebDevStudios.com
+Author URI: http://webdevstudios.com
+License: GPLv2
+Domain: taxonomy-core
+Path: languages
+*/
+
 if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 /**
