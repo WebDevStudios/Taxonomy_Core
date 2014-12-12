@@ -3,7 +3,7 @@
 Plugin Name: WDS Taxonomy Core
 Plugin URI: http://webdevstudios.com
 Description: Taxonomy registration starter class
-Version: 0.2.1
+Version: 0.2.2
 Author: WebDevStudios.com
 Author URI: http://webdevstudios.com
 License: GPLv2
@@ -15,7 +15,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 /**
  * Plugin class for generating/registering custom Taxonomies.
- * @version 0.2.1
+ * @version 0.2.2
  * @author  Justin Sternberg
  *
  * Text Domain: taxonomy-core
@@ -112,6 +112,7 @@ class Taxonomy_Core {
 		if ( ! empty( $this->taxonomy_args ) )
 			return $this->taxonomy_args;
 
+		// Generate CPT labels
 		$labels = array(
 			'name'              => $this->plural,
 			'singular_name'     => $this->singular,
@@ -136,14 +137,18 @@ class Taxonomy_Core {
 		}
 
 		$defaults = array(
+			'labels'            => array(),
 			'hierarchical'      => true,
-			'labels'            => $labels,
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'rewrite'           => array( 'hierarchical' => $hierarchical, 'slug' => $this->taxonomy ),
 		);
 
 		$this->taxonomy_args = wp_parse_args( $this->arg_overrides, $defaults );
+
+		$this->taxonomy_args['labels'] = wp_parse_args( $this->taxonomy_args['labels'], $labels );
+
+
 		return $this->taxonomy_args;
 	}
 
