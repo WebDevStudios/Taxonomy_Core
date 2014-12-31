@@ -3,7 +3,7 @@
 Plugin Name: WDS Taxonomy Core
 Plugin URI: http://webdevstudios.com
 Description: Taxonomy registration starter class
-Version: 0.2.2
+Version: 0.2.3
 Author: WebDevStudios.com
 Author URI: http://webdevstudios.com
 License: GPLv2
@@ -15,7 +15,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 /**
  * Plugin class for generating/registering custom Taxonomies.
- * @version 0.2.2
+ * @version 0.2.3
  * @author  Justin Sternberg
  *
  * Text Domain: taxonomy-core
@@ -194,7 +194,7 @@ class Taxonomy_Core {
 	 * @param  string $taxonomy Specific Taxonomy_Core object to return, or 'true' to specify only names.
 	 * @return mixed            Specific Taxonomy_Core object or array of all
 	 */
-	public function taxonomies( $taxonomy = '' ) {
+	public static function taxonomies( $taxonomy = '' ) {
 		if ( $taxonomy === true && ! empty( self::$taxonomies ) ) {
 			return array_keys( self::$taxonomies );
 		}
