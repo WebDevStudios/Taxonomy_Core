@@ -1,0 +1,15 @@
+{
+    "name": "webdevstudios/taxonomy_core",
+    "description": "A tool to make custom taxonomy registration just a bit simpler. Automatically registers taxonomy labels, and provides helpful methods.",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "WebDevStudios",
+            "email": "contact@webdevstudios.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": ["Taxonomy_Core.php"]
+    }
+}
