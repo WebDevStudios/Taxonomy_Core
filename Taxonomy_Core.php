@@ -121,27 +121,28 @@ class Taxonomy_Core {
 
 		// Generate CPT labels
 		$labels = array(
-			'name'              => $this->plural,
-			'singular_name'     => $this->singular,
-			'search_items'      => sprintf( __( 'Search %s', 'taxonomy-core' ), $this->plural ),
-			'all_items'         => sprintf( __( 'All %s', 'taxonomy-core' ), $this->plural ),
-			'parent_item'       => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s', 'taxonomy-core' ), $this->singular ) : null,
-			'parent_item_colon' => isset( $this->arg_overrides['hierarchical'] ) && $this->arg_overrides['hierarchical'] ? sprintf( __( 'Parent %s:', 'taxonomy-core' ), $this->singular ) : null,
-			'edit_item'         => sprintf( __( 'Edit %s', 'taxonomy-core' ), $this->singular ),
-			'edit_item'         => sprintf( __( 'Update %s', 'taxonomy-core' ), $this->singular ),
-			'add_new_item'      => sprintf( __( 'Add New %s', 'taxonomy-core' ), $this->singular ),
-			'add_new_item'      => sprintf( __( 'New %s Name', 'taxonomy-core' ), $this->singular ),
+			'name'                       => $this->plural,
+			'singular_name'              => $this->singular,
+			'search_items'               => sprintf( __( 'Search %s', 'taxonomy-core' ), $this->plural ),
+			'all_items'                  => sprintf( __( 'All %s', 'taxonomy-core' ), $this->plural ),
+			'edit_item'                  => sprintf( __( 'Edit %s', 'taxonomy-core' ), $this->singular ),
+			'view_item'                  => sprintf( __( 'View %s', 'taxonomy-core' ), $this->singular ),
+			'update_item'                => sprintf( __( 'Update %s', 'taxonomy-core' ), $this->singular ),
+			'add_new_item'               => sprintf( __( 'Add New %s', 'taxonomy-core' ), $this->singular ),
+			'new_item_name'              => sprintf( __( 'New %s Name', 'taxonomy-core' ), $this->singular ),
+			'not_found'                  => sprintf( __( 'No %s found.', 'taxonomy-core' ), $this->plural ),
+			'no_terms'                   => sprintf( __( 'No %s', 'taxonomy-core' ), $this->plural ),
+
+			// Hierarchical stuff
+			'parent_item'       => $hierarchical ? sprintf( __( 'Parent %s', 'taxonomy-core' ), $this->singular ) : null,
+			'parent_item_colon' => $hierarchical ? sprintf( __( 'Parent %s:', 'taxonomy-core' ), $this->singular ) : null,
+
+			// Non-hierarchical stuff
+			'popular_items'              => $hierarchical ? null : sprintf( __( 'Popular %s', 'taxonomy-core' ), $this->plural ),
+			'separate_items_with_commas' => $hierarchical ? null : sprintf( __( 'Separate %s with commas', 'taxonomy-core' ), $this->plural ),
+			'add_or_remove_items'        => $hierarchical ? null : sprintf( __( 'Add or remove %s', 'taxonomy-core' ), $this->plural ),
+			'choose_from_most_used'      => $hierarchical ? null : sprintf( __( 'Choose from the most used %s', 'taxonomy-core' ), $this->plural ),
 		);
-
-		$hierarchical = true;
-
-		if ( isset( $args['hierarchical'] ) && $args['hierarchical'] == false ) {
-			$labels['popular_items']              = sprintf( __( 'Popular %s', 'taxonomy-core' ), $this->plural );
-			$labels['separate_items_with_commas'] = sprintf( __( 'Separate %s with commas', 'taxonomy-core' ), $this->plural );
-			$labels['add_or_remove_items']        = sprintf( __( 'Add or remove %s', 'taxonomy-core' ), $this->plural );
-			$labels['choose_from_most_used']      = sprintf( __( 'Choose from the most used %s', 'taxonomy-core' ), $this->plural );
-			$hierarchical = false;
-		}
 
 		$defaults = array(
 			'labels'            => array(),
