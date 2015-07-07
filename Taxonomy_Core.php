@@ -113,6 +113,12 @@ class Taxonomy_Core {
 			return $this->taxonomy_args;
 		}
 
+		// Hierarchical check that will be used multiple times below
+		$hierarchical = true;
+		if ( isset( $this->arg_overrides['hierarchical'] ) ) {
+			$hierarchical = (bool) $this->arg_overrides['hierarchical'];
+		}
+
 		// Generate CPT labels
 		$labels = array(
 			'name'              => $this->plural,
