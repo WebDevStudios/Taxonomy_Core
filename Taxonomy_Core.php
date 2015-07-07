@@ -109,8 +109,9 @@ class Taxonomy_Core {
 	 * @return array  Taxonomy arguments array
 	 */
 	public function get_args() {
-		if ( ! empty( $this->taxonomy_args ) )
+		if ( ! empty( $this->taxonomy_args ) ) {
 			return $this->taxonomy_args;
+		}
 
 		// Generate CPT labels
 		$labels = array(
