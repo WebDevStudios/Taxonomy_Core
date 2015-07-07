@@ -152,10 +152,8 @@ class Taxonomy_Core {
 			'rewrite'           => array( 'hierarchical' => $hierarchical, 'slug' => $this->taxonomy ),
 		);
 
-		$this->taxonomy_args = wp_parse_args( $this->arg_overrides, $defaults );
-
+		$this->taxonomy_args           = wp_parse_args( $this->arg_overrides, $defaults );
 		$this->taxonomy_args['labels'] = wp_parse_args( $this->taxonomy_args['labels'], $labels );
-
 
 		return $this->taxonomy_args;
 	}
