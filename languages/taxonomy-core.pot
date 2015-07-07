@@ -1,66 +1,94 @@
-# Copyright (C) 2014 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2015 WebDevStudios.com
+# This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: WDS Taxonomy Core 0.2.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/Taxonomy_Core\n"
-"POT-Creation-Date: 2014-11-24 22:01:32+00:00\n"
+"POT-Creation-Date: 2015-07-07 21:20:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
-#: Taxonomy_Core.php:72 Taxonomy_Core.php:76 Taxonomy_Core.php:80
+#: Taxonomy_Core.php:84 Taxonomy_Core.php:88 Taxonomy_Core.php:92
 msgid "It is required to pass a single, plural and slug string to Taxonomy_Core"
 msgstr ""
 
-#: Taxonomy_Core.php:106
+#: Taxonomy_Core.php:126
 msgid "Search %s"
 msgstr ""
 
-#: Taxonomy_Core.php:107
+#: Taxonomy_Core.php:127
 msgid "All %s"
 msgstr ""
 
-#: Taxonomy_Core.php:108
-msgid "Parent %s"
-msgstr ""
-
-#: Taxonomy_Core.php:109
-msgid "Parent %s:"
-msgstr ""
-
-#: Taxonomy_Core.php:110
+#: Taxonomy_Core.php:128
 msgid "Edit %s"
 msgstr ""
 
-#: Taxonomy_Core.php:111
+#: Taxonomy_Core.php:129
+msgid "View %s"
+msgstr ""
+
+#: Taxonomy_Core.php:130
 msgid "Update %s"
 msgstr ""
 
-#: Taxonomy_Core.php:112
+#: Taxonomy_Core.php:131
 msgid "Add New %s"
 msgstr ""
 
-#: Taxonomy_Core.php:113
+#: Taxonomy_Core.php:132
 msgid "New %s Name"
 msgstr ""
 
-#: Taxonomy_Core.php:119
+#: Taxonomy_Core.php:133
+msgid "No %s found."
+msgstr ""
+
+#: Taxonomy_Core.php:134
+msgid "No %s"
+msgstr ""
+
+#: Taxonomy_Core.php:137
+msgid "Parent %s"
+msgstr ""
+
+#: Taxonomy_Core.php:138
+msgid "Parent %s:"
+msgstr ""
+
+#: Taxonomy_Core.php:141
 msgid "Popular %s"
 msgstr ""
 
-#: Taxonomy_Core.php:120
+#: Taxonomy_Core.php:142
 msgid "Separate %s with commas"
 msgstr ""
 
-#: Taxonomy_Core.php:121
+#: Taxonomy_Core.php:143
 msgid "Add or remove %s"
 msgstr ""
 
-#: Taxonomy_Core.php:122
+#: Taxonomy_Core.php:144
 msgid "Choose from the most used %s"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WDS Taxonomy Core"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://webdevstudios.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Taxonomy registration starter class"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WebDevStudios.com"
 msgstr ""
