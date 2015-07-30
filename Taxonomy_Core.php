@@ -99,7 +99,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 			$this->object_types  = (array) $object_types;
 
 			// load text domain
-			add_action( 'plugins_loaded', array( $this, 'l10n' ) );
+			add_action( 'plugins_loaded', array( $this, 'l10n' ), 5 );
 			add_action( 'init', array( $this, 'register_taxonomy' ), 5 );
 		}
 
