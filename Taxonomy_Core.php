@@ -3,7 +3,7 @@
  * Plugin Name: WDS Taxonomy Core
  * Plugin URI:  http://webdevstudios.com
  * Description: Taxonomy registration starter class
- * Version:     0.2.3
+ * Version:     0.2.4
  * Author:      WebDevStudios.com
  * Author URI:  http://webdevstudios.com
  * License:     GPLv2
@@ -15,7 +15,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 	/**
 	 * Plugin class for generating/registering custom Taxonomies.
-	 * @version 0.2.3
+	 * @version 0.2.4
 	 * @author  Justin Sternberg
 	 *
 	 * Text Domain: taxonomy-core
@@ -27,49 +27,49 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 		 * Singlur Taxonomy label
 		 * @var string
 		 */
-		private $singular;
+		protected $singular;
 
 		/**
 		 * Plural Taxonomy label
 		 * @var string
 		 */
-		private $plural;
+		protected $plural;
 
 		/**
 		 * Registered Taxonomy name/slug
 		 * @var string
 		 */
-		private $taxonomy;
+		protected $taxonomy;
 
 		/**
 		 * Optional argument overrides passed in from the constructor.
 		 * @var array
 		 */
-		private $arg_overrides = array();
+		protected $arg_overrides = array();
 
 		/**
 		 * All Taxonomy registration arguments
 		 * @var array
 		 */
-		private $taxonomy_args = array();
+		protected $taxonomy_args = array();
 
 		/**
 		 * Objects to register this taxonomy against
 		 * @var array
 		 */
-		private $object_types;
+		protected $object_types;
 
 		/**
 		 * An array of each Taxonomy_Core object registered with this class
 		 * @var array
 		 */
-		private static $taxonomies = array();
+		protected static $taxonomies = array();
 
 		/**
 		 * Whether text-domain has been registered
 		 * @var boolean
 		 */
-		private static $l10n_done = false;
+		protected static $l10n_done = false;
 
 		/**
 		 * Constructor. Builds our Taxonomy.
@@ -180,7 +180,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 		}
 
 		/**
-		 * Provides access to private class properties.
+		 * Provides access to protected class properties.
 		 * @since  0.1.0
 		 * @param  string $key Specific taxonomy parameter to return
 		 * @return mixed       Specific taxonomy parameter or array of singular, plural and registered name
