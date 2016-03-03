@@ -91,6 +91,10 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 			if ( ! is_string( $taxonomy[0] ) || ! is_string( $taxonomy[1] ) || ! is_string( $taxonomy[2] ) ) {
 				wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
 			}
+			
+			if ( taxonomy_exists( $taxonomy[2] ) ) {
+				return;
+			}
 
 			$this->singular      = $taxonomy[0];
 			$this->plural        = ! isset( $taxonomy[1] ) || ! is_string( $taxonomy[1] ) ? $taxonomy[0] .'s' : $taxonomy[1];
@@ -101,6 +105,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 			// load text domain
 			add_action( 'plugins_loaded', array( $this, 'l10n' ), 5 );
 			add_action( 'init', array( $this, 'register_taxonomy' ), 5 );
+			add_action( 'deactivated_plugin', array( $this, 'flush_permalink' ), 10, 2 );
 		}
 
 		/**
@@ -177,6 +182,7 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 			// Add this taxonomy to our taxonomies array
 			self::$taxonomies[ $this->taxonomy ] = $this;
+			$this->flush_permalink();
 		}
 
 		/**
@@ -230,6 +236,14 @@ if ( ! class_exists( 'Taxonomy_Core' ) ) :
 			$locale = apply_filters( 'plugin_locale', get_locale(), 'taxonomy-core' );
 			$mofile = dirname( __FILE__ ) . '/languages/taxonomy-core-'. $locale .'.mo';
 			load_textdomain( 'taxonomy-core', $mofile );
+		}
+                
+		/**
+		 * Flush the permalink
+		 * @since  0.2.5
+		 */
+		public function flush_permalink() {
+		    flush_rewrite_rules();
 		}
 
 	}
