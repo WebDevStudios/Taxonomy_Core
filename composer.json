@@ -8,10 +8,10 @@
             "email": "contact@webdevstudios.com"
         }
     ],
-		"type": "wordpress-plugin",
+    "type": "wordpress-plugin",
     "require": {},
-		"suggest": {
-			"composer/installers": "~1.0"
+    "suggest": {
+        "composer/installers": "~1.0"
 		},
     "autoload": {
         "files": ["Taxonomy_Core.php"]
