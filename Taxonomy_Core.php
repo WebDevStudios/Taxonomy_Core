@@ -11,6 +11,9 @@
  * Path:        languages
  */
 
+// Our namespace.
+namespace WebDevStudios\Taxonomy_Core;
+
 if ( ! class_exists( 'Taxonomy_Core' ) ) :
 
 	/**
