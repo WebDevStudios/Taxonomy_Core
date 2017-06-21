@@ -11,241 +11,124 @@
  * Path:        languages
  */
 
-if ( ! class_exists( 'Taxonomy_Core' ) ) :
+ /**
+  * Loader versioning: http://jtsternberg.github.io/wp-lib-loader/
+  */
 
-	/**
-	 * Plugin class for generating/registering custom Taxonomies.
-	 * @version 0.2.4
-	 * @author  Justin Sternberg
-	 *
-	 * Text Domain: taxonomy-core
-	 * Domain Path: /languages
-	 */
-	class Taxonomy_Core {
+ if ( ! class_exists( 'Taxonomy_Core_011', false ) ) {
 
-		/**
-		 * Singlur Taxonomy label
-		 * @var string
-		 */
-		protected $singular;
+ 	/**
+ 	 * Versioned loader class-name
+ 	 *
+ 	 * This ensures each version is loaded/checked.
+ 	 *
+ 	 * @category WordPressLibrary
+ 	 * @package  Taxonomy_Core
+ 	 * @author   WebDevStudios <info@webdevstudios.com>
+ 	 * @license  GPL-2.0+
+ 	 * @version  0.1.0
+ 	 * @link     https://webdevstudios.com
+ 	 * @since    0.1.0
+ 	 */
+ 	class Taxonomy_Core_011 {
 
-		/**
-		 * Plural Taxonomy label
-		 * @var string
-		 */
-		protected $plural;
+ 		/**
+ 		 * Taxonomy_Core version number
+ 		 * @var   string
+ 		 * @since 0.1.0
+ 		 */
+ 		const VERSION = '0.2.4';
 
-		/**
-		 * Registered Taxonomy name/slug
-		 * @var string
-		 */
-		protected $taxonomy;
+ 		/**
+ 		 * Current version hook priority.
+ 		 * Will decrement with each release
+ 		 *
+ 		 * @var   int
+ 		 * @since 0.2.4
+ 		 */
+ 		const PRIORITY = 9998;
 
-		/**
-		 * Optional argument overrides passed in from the constructor.
-		 * @var array
-		 */
-		protected $arg_overrides = array();
+ 		/**
+ 		 * Starts the version checking process.
+ 		 * Creates TAXONOMY_CORE_LOADED definition for early detection by
+ 		 * other scripts.
+ 		 *
+ 		 * Hooks Taxonomy_Core inclusion to the taxonomy_core_load hook
+ 		 * on a high priority which decrements (increasing the priority) with
+ 		 * each version release.
+ 		 *
+ 		 * @since 0.2.4
+ 		 */
+ 		public function __construct() {
+ 			if ( ! defined( 'TAXONOMY_CORE_LOADED' ) ) {
+ 				/**
+ 				 * A constant you can use to check if Taxonomy_Core is loaded
+ 				 * for your plugins/themes with Taxonomy_Core dependency.
+ 				 *
+ 				 * Can also be used to determine the priority of the hook
+ 				 * in use for the currently loaded version.
+ 				 */
+ 				define( 'TAXONOMY_CORE_LOADED', self::PRIORITY );
+ 			}
 
-		/**
-		 * All Taxonomy registration arguments
-		 * @var array
-		 */
-		protected $taxonomy_args = array();
+ 			// Use the hook system to ensure only the newest version is loaded.
+ 			add_action( 'taxonomy_core_load', array( $this, 'include_lib' ), self::PRIORITY );
 
-		/**
-		 * Objects to register this taxonomy against
-		 * @var array
-		 */
-		protected $object_types;
+ 			/*
+ 			 * Hook in to the first hook we have available and
+ 			 * fire our `taxonomy_core_load' hook.
+ 			 */
+ 			add_action( 'muplugins_loaded', array( __CLASS__, 'fire_hook' ), 9 );
+ 			add_action( 'plugins_loaded', array( __CLASS__, 'fire_hook' ), 9 );
+ 			add_action( 'after_setup_theme', array( __CLASS__, 'fire_hook' ), 9 );
+ 		}
 
-		/**
-		 * An array of each Taxonomy_Core object registered with this class
-		 * @var array
-		 */
-		protected static $taxonomies = array();
+ 		/**
+ 		 * Fires the taxonomy_core_load action hook.
+ 		 *
+ 		 * @since 0.2.4
+ 		 */
+ 		public static function fire_hook() {
+ 			if ( ! did_action( 'taxonomy_core_load' ) ) {
+ 				// Then fire our hook.
+ 				do_action( 'taxonomy_core_load' );
+ 			}
+ 		}
 
-		/**
-		 * Whether text-domain has been registered
-		 * @var boolean
-		 */
-		protected static $l10n_done = false;
+ 		/**
+ 		 * A final check if Taxonomy_Core exists before kicking off
+ 		 * our Taxonomy_Core loading.
+ 		 *
+ 		 * TAXONOMY_CORE_VERSION and TAXONOMY_CORE_DIR constants are
+ 		 * set at this point.
+ 		 *
+ 		 * @since  0.2.4
+ 		 */
+ 		public function include_lib() {
+ 			if ( class_exists( 'Taxonomy_Core', false ) ) {
+ 				return;
+ 			}
 
-		/**
-		 * Constructor. Builds our Taxonomy.
-		 * @since 0.1.0
-		 * @param mixed $taxonomy      Singular Taxonomy name, or array with Singular, Plural, and Registered
-		 * @param array $arg_overrides Taxonomy registration override arguments
-		 * @param array $object_types  Post types to register this taxonomy for
-		 */
-		public function __construct( $taxonomy, $arg_overrides = array(), $object_types = array( 'post' ) ) {
+ 			if ( ! defined( 'TAXONOMY_CORE_VERSION' ) ) {
+ 				/**
+ 				 * Defines the currently loaded version of Taxonomy_Core.
+ 				 */
+ 				define( 'TAXONOMY_CORE_VERSION', self::VERSION );
+ 			}
 
-			if ( ! is_array( $taxonomy ) ) {
-				wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
-			}
+ 			if ( ! defined( 'TAXONOMY_CORE_DIR' ) ) {
+ 				/**
+ 				 * Defines the directory of the currently loaded version of Taxonomy_Core.
+ 				 */
+ 				define( 'TAXONOMY_CORE_DIR', dirname( __FILE__ ) . '/' );
+ 			}
 
-			if ( ! isset( $taxonomy[0], $taxonomy[1], $taxonomy[2] ) ) {
-				wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'cpt-core' ) );
-			}
+ 			// Include and initiate Taxonomy_Core.
+ 			require_once TAXONOMY_CORE_DIR . 'lib/init.php';
+ 		}
 
-			if ( ! is_string( $taxonomy[0] ) || ! is_string( $taxonomy[1] ) || ! is_string( $taxonomy[2] ) ) {
-				wp_die( __( 'It is required to pass a single, plural and slug string to Taxonomy_Core', 'taxonomy-core' ) );
-			}
+ 	}
 
-			$this->singular      = $taxonomy[0];
-			$this->plural        = ! isset( $taxonomy[1] ) || ! is_string( $taxonomy[1] ) ? $taxonomy[0] .'s' : $taxonomy[1];
-			$this->taxonomy      = ! isset( $taxonomy[2] ) || ! is_string( $taxonomy[2] ) ? sanitize_title( $this->plural ) : $taxonomy[2];
-			$this->arg_overrides = (array) $arg_overrides;
-			$this->object_types  = (array) $object_types;
-
-			// load text domain
-			add_action( 'plugins_loaded', array( $this, 'l10n' ), 5 );
-			add_action( 'init', array( $this, 'register_taxonomy' ), 5 );
-		}
-
-		/**
-		 * Gets the passed in arguments combined with our defaults.
-		 * @since  0.1.0
-		 * @return array  Taxonomy arguments array
-		 */
-		public function get_args() {
-			if ( ! empty( $this->taxonomy_args ) ) {
-				return $this->taxonomy_args;
-			}
-
-			// Hierarchical check that will be used multiple times below
-			$hierarchical = true;
-			if ( isset( $this->arg_overrides['hierarchical'] ) ) {
-				$hierarchical = (bool) $this->arg_overrides['hierarchical'];
-			}
-
-			// Generate CPT labels
-			$labels = array(
-				'name'                       => $this->plural,
-				'singular_name'              => $this->singular,
-				'search_items'               => sprintf( __( 'Search %s', 'taxonomy-core' ), $this->plural ),
-				'all_items'                  => sprintf( __( 'All %s', 'taxonomy-core' ), $this->plural ),
-				'edit_item'                  => sprintf( __( 'Edit %s', 'taxonomy-core' ), $this->singular ),
-				'view_item'                  => sprintf( __( 'View %s', 'taxonomy-core' ), $this->singular ),
-				'update_item'                => sprintf( __( 'Update %s', 'taxonomy-core' ), $this->singular ),
-				'add_new_item'               => sprintf( __( 'Add New %s', 'taxonomy-core' ), $this->singular ),
-				'new_item_name'              => sprintf( __( 'New %s Name', 'taxonomy-core' ), $this->singular ),
-				'not_found'                  => sprintf( __( 'No %s found.', 'taxonomy-core' ), $this->plural ),
-				'no_terms'                   => sprintf( __( 'No %s', 'taxonomy-core' ), $this->plural ),
-
-				// Hierarchical stuff
-				'parent_item'       => $hierarchical ? sprintf( __( 'Parent %s', 'taxonomy-core' ), $this->singular ) : null,
-				'parent_item_colon' => $hierarchical ? sprintf( __( 'Parent %s:', 'taxonomy-core' ), $this->singular ) : null,
-
-				// Non-hierarchical stuff
-				'popular_items'              => $hierarchical ? null : sprintf( __( 'Popular %s', 'taxonomy-core' ), $this->plural ),
-				'separate_items_with_commas' => $hierarchical ? null : sprintf( __( 'Separate %s with commas', 'taxonomy-core' ), $this->plural ),
-				'add_or_remove_items'        => $hierarchical ? null : sprintf( __( 'Add or remove %s', 'taxonomy-core' ), $this->plural ),
-				'choose_from_most_used'      => $hierarchical ? null : sprintf( __( 'Choose from the most used %s', 'taxonomy-core' ), $this->plural ),
-			);
-
-			$defaults = array(
-				'labels'            => array(),
-				'hierarchical'      => true,
-				'show_ui'           => true,
-				'show_admin_column' => true,
-				'rewrite'           => array( 'hierarchical' => $hierarchical, 'slug' => $this->taxonomy ),
-			);
-
-			$this->taxonomy_args           = wp_parse_args( $this->arg_overrides, $defaults );
-			$this->taxonomy_args['labels'] = wp_parse_args( $this->taxonomy_args['labels'], $labels );
-
-			return $this->taxonomy_args;
-		}
-
-		/**
-		 * Actually registers our Taxonomy with the merged arguments
-		 * @since  0.1.0
-		 */
-		public function register_taxonomy() {
-			global $wp_taxonomies;
-
-			// Register our Taxonomy
-			$args = register_taxonomy( $this->taxonomy, $this->object_types, $this->get_args() );
-			// If error, yell about it.
-			if ( is_wp_error( $args ) ) {
-				wp_die( $args->get_error_message() );
-			}
-
-			// Success. Set args to what WP returns
-			$this->taxonomy_args = $wp_taxonomies[ $this->taxonomy ];
-
-			// Add this taxonomy to our taxonomies array
-			self::$taxonomies[ $this->taxonomy ] = $this;
-		}
-
-		/**
-		 * Provides access to protected class properties.
-		 * @since  0.1.0
-		 * @param  string $key Specific taxonomy parameter to return
-		 * @return mixed       Specific taxonomy parameter or array of singular, plural and registered name
-		 */
-		public function taxonomy( $key = 'taxonomy' ) {
-
-			return isset( $this->$key ) ? $this->$key : array(
-				'singular'     => $this->singular,
-				'plural'       => $this->plural,
-				'taxonomy'     => $this->taxonomy,
-				'object_types' => $this->object_types,
-			);
-		}
-
-		/**
-		 * Provides access to all Taxonomy_Core taxonomy objects registered via this class.
-		 * @since  0.1.0
-		 * @param  string $taxonomy Specific Taxonomy_Core object to return, or 'true' to specify only names.
-		 * @return mixed            Specific Taxonomy_Core object or array of all
-		 */
-		public static function taxonomies( $taxonomy = '' ) {
-			if ( true === $taxonomy && ! empty( self::$taxonomies ) ) {
-				return array_keys( self::$taxonomies );
-			}
-			return isset( self::$taxonomies[ $taxonomy ] ) ? self::$taxonomies[ $taxonomy ] : self::$taxonomies;
-		}
-
-		/**
-		 * Magic method that echos the Taxonomy registered name when treated like a string
-		 * @since  0.1.0
-		 * @return string Taxonomy registered name
-		 */
-		public function __toString() {
-			return $this->taxonomy();
-		}
-
-		/**
-		 * Load this library's text domain
-		 * @since  0.2.0
-		 */
-		public function l10n() {
-			// Only do this one time
-			if ( self::$l10n_done ) {
-				return;
-			}
-
-			$locale = apply_filters( 'plugin_locale', get_locale(), 'taxonomy-core' );
-			$mofile = dirname( __FILE__ ) . '/languages/taxonomy-core-'. $locale .'.mo';
-			load_textdomain( 'taxonomy-core', $mofile );
-		}
-
-	}
-
-	if ( ! function_exists( 'register_via_taxonomy_core' ) ) {
-		/**
-		 * Helper function to register a Taxonomy via the Taxonomy_Core class.
-		 * @since  0.1.0
-		 * @param  mixed $taxonomy      Singular Taxonomy name, or array with Singular, Plural, and Registered
-		 * @param  array $arg_overrides Taxonomy registration override arguments
-		 * @param  array $object_types  Post types to register this taxonomy for
-		 * @return Taxonomy_Core        An instance of the class.
-		 */
-		function register_via_taxonomy_core( $taxonomy, $arg_overrides = array(), $object_types = array( 'post' ) ) {
-			return new Taxonomy_Core( $taxonomy, $arg_overrides, $object_types );
-		}
-	}
-
-endif; // end class_exists check
+ 	// Kick it off.
+ 	new Taxonomy_Core_011;
+ }
