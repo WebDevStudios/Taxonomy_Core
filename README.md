@@ -12,12 +12,12 @@ Please note, that library initiation method had been changed since 0.2.5 version
 ```php
 <?php
 
+/**
+ * Load Taxonomy_Core
+ */
+require_once 'Taxonomy_Core/Taxonomy_Core.php';
+	
 function myprefix_taxonomy_core_demo() {
-	/**
-	 * Load Taxonomy_Core
-	 */
-	require_once 'Taxonomy_Core/Taxonomy_Core.php';
-
 	/**
 	 * Will register a 'Genre' Taxonomy to posts
 	 * First parameter is an array with Singular, Plural, and Registered name
