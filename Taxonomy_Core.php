@@ -3,7 +3,7 @@
  * Plugin Name: WDS Taxonomy Core
  * Plugin URI:  http://webdevstudios.com
  * Description: Taxonomy registration starter class
- * Version:     0.2.4
+ * Version:     0.2.5
  * Author:      WebDevStudios.com
  * Author URI:  http://webdevstudios.com
  * License:     GPLv2
@@ -24,7 +24,7 @@
  	 *
  	 * @category WordPressLibrary
  	 * @package  Taxonomy_Core
- 	 * @author   WebDevStudios <info@webdevstudios.com>
+ 	 * @author   WebDevStudios <contact@webdevstudios.com>
  	 * @license  GPL-2.0+
  	 * @version  0.1.0
  	 * @link     https://webdevstudios.com
@@ -37,7 +37,7 @@
  		 * @var   string
  		 * @since 0.1.0
  		 */
- 		const VERSION = '0.2.4';
+ 		const VERSION = '0.2.5';
 
  		/**
  		 * Current version hook priority.
@@ -127,7 +127,7 @@
  			require_once TAXONOMY_CORE_DIR . 'lib/init.php';
  		}
 
- 	}
+ 	} 
 
  	// Kick it off.
  	new Taxonomy_Core_011;
