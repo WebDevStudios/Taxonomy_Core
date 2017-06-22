@@ -11,5 +11,8 @@
     "require": {},
     "autoload": {
         "files": ["Taxonomy_Core.php"]
+    },
+    "extra": {
+	"installer-name": "Taxonomy_Core"
     }
 }
