@@ -5,7 +5,7 @@ A tool to make custom taxonomy registration just a bit simpler. Automatically re
 
 Also see [CPT_Core](https://github.com/jtsternberg/CPT_Core).
 
-__IMPORTANT UPGRADE INFORMATION__
+##IMPORTANT UPGRADE INFORMATION
 Please note, that library initiation method had been changed since 0.2.5 version. Now you need to hook to `taxonomy_core_load` action to work with Taxonomy Core methods.
 
 #### Example Usage:
