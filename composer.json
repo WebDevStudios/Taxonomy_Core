@@ -1,14 +1,21 @@
 {
     "name": "webdevstudios/taxonomy_core",
     "description": "A tool to make custom taxonomy registration just a bit simpler. Automatically registers taxonomy labels, and provides helpful methods.",
+    "type": "wordpress-plugin",
     "license": "GPLv2",
+    "homepage": "https://github.com/WebDevStudios/Taxonomy_Core",
+    "support": {
+        "issues": "https://github.com/WebDevStudios/Taxonomy_Core/issues"
+    },
     "authors": [
         {
             "name": "WebDevStudios",
             "email": "contact@webdevstudios.com"
         }
     ],
-    "require": {},
+    "require": {
+        "composer/installers": "~1.0"
+    },
     "autoload": {
         "files": ["Taxonomy_Core.php"]
     }
